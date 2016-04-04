@@ -1,0 +1,26 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.3.RELEASE")
+    }
+}
+
+apply plugin: "java"
+apply plugin: "spring-boot"
+
+version = '1.0-SNAPSHOT'
+group = "com.aa.angularboot"
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+dependencies {
+	compile "org.springframework.boot:spring-boot-starter-test:1.3.3.RELEASE"
+	compile "org.springframework.boot:spring-boot-starter-web:1.3.3.RELEASE"
+    compile "org.xerial:sqlite-jdbc:3.8.11.2"
+}
