@@ -3,6 +3,9 @@ app.controller('statsCtrl', function($scope, $rootScope, $http) {
     $http.get('/fields').then(function(response) {
         $scope.fields = response.data
     })
+    $rootScope.selectedField = "<- Select a field"
+    $rootScope.returnedCount = '?'
+    $rootScope.totalCount = '?'
     $scope.selectField = function(field) {
         $rootScope.selectedField = field
         $http({
@@ -10,7 +13,9 @@ app.controller('statsCtrl', function($scope, $rootScope, $http) {
             url: '/stats',
             params: { column: field }
         }).then(function(response) {
-           $rootScope.stats = response.data
+           $rootScope.stats = response.data.rows
+           $rootScope.totalCount = response.data.totalCount
+           $rootScope.returnedCount = response.data.returnedCount
         })
     }
 })

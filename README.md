@@ -10,3 +10,6 @@
 * Prepared statements
 * Jump to top of the page on selection? Find a better approach than side menu?
 * Show number of hidden rows
+* Configure DB & table name
+* Count, limit, and return rows in one shot. Or at least make counting way quicker
+* Now that the count query is slow, add "Loading..." during query

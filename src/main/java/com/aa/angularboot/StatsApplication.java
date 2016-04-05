@@ -7,9 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan
 @EnableAutoConfiguration
-public class KickMe {
+public class StatsApplication {
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(KickMe.class);
+        SpringApplication app = new SpringApplication(StatsApplication.class);
         app.setBannerMode(Banner.Mode.OFF);
         app.run(args);
     }
