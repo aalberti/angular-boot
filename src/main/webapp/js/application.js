@@ -1,6 +1,6 @@
 var app = angular.module('angularBoot', [])
 app.controller('statsCtrl', function($scope, $rootScope, $http) {
-    $http.get('/fields').then(function(response) {
+    $http.get('/rest/fields').then(function(response) {
         $scope.fields = response.data
     })
     $rootScope.selectedField = "<- Select a field"
@@ -10,7 +10,7 @@ app.controller('statsCtrl', function($scope, $rootScope, $http) {
         $rootScope.selectedField = field
         $http({
             method: 'GET',
-            url: '/stats',
+            url: '/rest/stats',
             params: { column: field }
         }).then(function(response) {
            $rootScope.stats = response.data.rows

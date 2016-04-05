@@ -1,0 +1,3 @@
+stats:
+  file: us-census.db
+  table: census_learn_sql

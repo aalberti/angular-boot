@@ -9,18 +9,25 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.aa.angularboot.StatsConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/rest")
 public class StatsController {
-    @RequestMapping("/fields")
+    @Autowired
+    private StatsConfig config;
+
+    @RequestMapping(value = "/fields", method = RequestMethod.GET)
     public Collection<String> fields() throws SQLException, ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:us-census.db")) {
+        try (Connection connection = getConnection()) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from census_learn_sql limit 1");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + config.getTable() + " LIMIT 1");
             ResultSetMetaData metaData = resultSet.getMetaData();
             Collection<String> columnNames = new ArrayList<>(metaData.getColumnCount());
             for (int i = 0; i < metaData.getColumnCount(); i++)
@@ -29,15 +36,15 @@ public class StatsController {
         }
     }
 
-    @RequestMapping("/stats")
+    @RequestMapping(value = "/stats", method = RequestMethod.GET)
     public Stats statsGroupedBy(@RequestParam(value = "column") String columnName) throws SQLException {
         ArrayList<StatsRow> rows = new ArrayList<>();
         int returnedCount = 0;
         int total = 0;
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:us-census.db")) {
+        try (Connection connection = getConnection()) {
             Statement statement = connection.createStatement();
             String rowsQuery = "SELECT  \"" + columnName + "\", AVG(age) as avgAge, COUNT(age) as count "
-                    + "FROM census_learn_sql "
+                    + "FROM " + config.getTable() + " "
                     + "GROUP BY\"" + columnName + "\" "
                     + "HAVING count > 0";
             try (ResultSet rowsSet = statement.executeQuery(rowsQuery + " ORDER BY count DESC LIMIT 100")) {
@@ -52,6 +59,10 @@ public class StatsController {
             }
         }
         return new Stats(rows, returnedCount, total);
+    }
+
+    private Connection getConnection() throws SQLException {
+        return DriverManager.getConnection("jdbc:sqlite:" + config.getFile());
     }
 
     @SuppressWarnings("unused")
