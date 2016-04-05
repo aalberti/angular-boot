@@ -17,7 +17,7 @@
 
 <div class="container">
     <div class="row">
-        <div ng-controller="fieldCtrl" class="col-sm-2">
+        <div ng-controller="statsCtrl" class="col-sm-2">
             <div class="list-group">
                 <button type="button" class="list-group-item"
                         ng-repeat="field in fields" ng-click="selectField(field)">
@@ -26,19 +26,17 @@
             </div>
         </div>
 
-        <div ng-controller="statsCtrl" class="col-sm-10">
-            <p>That's what you chose fellow: <span ng-bind="selectedField"></span></p>
-            <p>Enter your Name: <input type="text" ng-model="name"></p>
-            <p>Hello <span ng-bind="name"></span>!</p>
-
+        <div class="col-sm-10">
             <table class="table">
                 <tr>
-                    <th>field</th>
+                    <th>{{ selectedField }}</th>
                     <th>count</th>
+                    <th>average age</th>
                 </tr>
-                <tr ng-repeat="row in rows">
-                    <td>{{ row.field }}</td>
-                    <td>{{ row.count }}</td>
+                <tr ng-repeat="stat in stats">
+                    <td>{{ stat.classifier }}</td>
+                    <td>{{ stat.count }}</td>
+                    <td>{{ stat.avgAge }}</td>
                 </tr>
             </table>
         </div>
