@@ -7,11 +7,11 @@ app.controller('statsCtrl', function($scope) {
     ]
 })
 
-app.controller('fieldCtrl', function($scope, $http) {
+app.controller('fieldCtrl', function($scope, $rootScope, $http) {
     $http.get('/fields').then(function(response) {
         $scope.fields = response.data
     })
     $scope.selectField = function(field) {
-        $scope.selectedField = field
+        $rootScope.selectedField = field
     }
 })

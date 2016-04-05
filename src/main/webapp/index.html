@@ -15,30 +15,35 @@
 
 <body>
 
-<div ng-controller="fieldCtrl">
-    <div class="list-group">
-        <button type="button" class="list-group-item"
-                ng-repeat="field in fields" ng-click="selectField(field)">
-            {{field}}
-        </button>
+<div class="container">
+    <div class="row">
+        <div ng-controller="fieldCtrl" class="col-sm-2">
+            <div class="list-group">
+                <button type="button" class="list-group-item"
+                        ng-repeat="field in fields" ng-click="selectField(field)">
+                    {{field}}
+                </button>
+            </div>
+        </div>
+
+        <div ng-controller="statsCtrl" class="col-sm-10">
+            <p>That's what you chose fellow: <span ng-bind="selectedField"></span></p>
+            <p>Enter your Name: <input type="text" ng-model="name"></p>
+            <p>Hello <span ng-bind="name"></span>!</p>
+
+            <table class="table">
+                <tr>
+                    <th>field</th>
+                    <th>count</th>
+                </tr>
+                <tr ng-repeat="row in rows">
+                    <td>{{ row.field }}</td>
+                    <td>{{ row.count }}</td>
+                </tr>
+            </table>
+        </div>
+
     </div>
-    <p>That's what you chose fellow: <span ng-bind="selectedField"></span></p>
-</div>
-
-<div ng-controller="statsCtrl">
-    <p>Enter your Name: <input type="text" ng-model="name"></p>
-    <p>Hello <span ng-bind="name"></span>!</p>
-
-    <table>
-        <tr>
-            <th>field</th>
-            <th>count</th>
-        </tr>
-        <tr ng-repeat="row in rows">
-            <td>{{ row.field }}</td>
-            <td>{{ row.count }}</td>
-        </tr>
-    </table>
 </div>
 
 </body>
